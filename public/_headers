@@ -1,0 +1,24 @@
+/*
+  Build output for Cloudflare Pages and Netlify.
+
+  The application must keep working when the network is unavailable. The
+  application shell is revalidated on every visit, while the hashed assets
+  are immutable and can be cached for a year, so a browser that has opened
+  the tool once can open it again offline.
+*/
+
+/assets/*
+  Cache-Control: public, max-age=31536000, immutable
+
+/*
+  The document itself is never cached: it is opened from the user's disk and
+  must not survive in the browser's cache.
+*/
+  Cache-Control: public, max-age=0, must-revalidate
+  Content-Security-Policy: default-src 'self'; script-src 'self' 'wasm-unsafe-eval' 'wasm-unsafe-eval' blob:; worker-src 'self' blob:; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self' data:; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none'; frame-ancestors 'none'
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: no-referrer
+  Permissions-Policy: camera=(), microphone=(), geolocation=()
+
+/sw.js
+  Cache-Control: public, max-age=0, must-revalidate
