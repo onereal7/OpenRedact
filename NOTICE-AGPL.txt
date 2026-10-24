@@ -1,8 +1,47 @@
 [Open Redact] - [Redact PDF's online]
 Copyright (C) 2026 Tim Sabanshi
+https://github.com/tsabkuro/OpenRedact
 
 This program is free software: you can redistribute it and/or modify it under the terms of the GNU Affero General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
 
 This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Affero General Public License for more details.
 
-You should have received a copy of the GNU Affero General Public License along with this program. If not, see <https://www.gnu.org/licenses/>
+You should have received a copy of the GNU Affero General Public License along with this program. If not, see <https://www.gnu.org/licenses/>.
+
+
+================================================================================
+MODIFICATIONS
+================================================================================
+
+This copy is a fork of Open Redact by Tim Sabanshi
+(https://github.com/tsabkuro/OpenRedact), which is the original work. The
+original author retains the copyright in the original work above and in every
+source file that still carries their copyright notice.
+
+Modifications in this fork (see the commit history for details):
+
+  - The exported PDF is saved with garbage collection, so content that was
+    removed by a redaction is no longer present in the bytes of the file.
+  - Redaction options are stated explicitly instead of relying on the
+    engine's defaults.
+  - The page and its assets are cached properly, so the tool keeps working
+    when the network is unavailable.
+  - A failed document load is reported in the interface instead of only in
+    the browser console.
+
+The original work remains available at the address above. Anyone who wants
+the unmodified version should go there.
+
+================================================================================
+SOURCE OFFER
+================================================================================
+
+This program is licensed under the GNU Affero General Public License, version 3
+or later. Section 13 of that licence requires that, if you modify this program
+and let other people interact with it remotely through a computer network, you
+must offer those people the opportunity to receive the Corresponding Source of
+your modified version.
+
+If you host this application, the footer of the running application links to
+the source code of the exact version being served. Keep that link pointing at
+the commit you deployed.

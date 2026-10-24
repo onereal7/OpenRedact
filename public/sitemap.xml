@@ -1,4 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!--
+  The canonical address of this deployment. Update it when the fork is hosted
+  somewhere else, or remove this file if the site should not be indexed.
+-->
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://openredact.com/</loc>

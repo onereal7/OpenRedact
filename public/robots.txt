@@ -1,4 +1,5 @@
 User-agent: *
 Allow: /
 
+# Update this to the address this deployment is served from.
 Sitemap: https://openredact.com/sitemap.xml
