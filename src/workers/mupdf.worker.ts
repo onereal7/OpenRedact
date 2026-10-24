@@ -80,7 +80,7 @@ export class MupdfWorker {
       // of a redaction. The rest say what to do with images, line art and
       // text inside the removed area.
       page.applyRedactions(
-        0,
+        false,
         mupdf.PDFPage.REDACT_IMAGE_PIXELS,
         mupdf.PDFPage.REDACT_LINE_ART_REMOVE_IF_TOUCHED,
         mupdf.PDFPage.REDACT_TEXT_REMOVE
