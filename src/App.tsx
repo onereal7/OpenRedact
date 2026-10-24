@@ -1,6 +1,13 @@
 // Copyright (C) 2026 Tim Sabanshi
 // Full AGPL notice: see NOTICE-AGPL.txt
-import { ChangeEvent, PointerEvent as ReactPointerEvent, useEffect, useRef, useState } from "react";
+import {
+  ChangeEvent,
+  PointerEvent as ReactPointerEvent,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import "@/App.css";
 
 import PDFJsViewer, { ViewerCommand } from "./components/PDFJsViewer";
@@ -42,6 +49,12 @@ function App() {
   const [command, setCommand] = useState<ViewerCommand | null>(null);
   const [loadError, setLoadError] = useState<string | null>(null);
   const [toolbarPos, setToolbarPos] = useState({ x: 20, y: HEADER_HEIGHT + 16 });
+
+  // Kept stable so the viewer can depend on it without reloading the
+  // document on every render.
+  const handleLoadError = useCallback((message: string | null) => {
+    setLoadError(message);
+  }, []);
 
   useEffect(() => {
     document.body.classList.toggle("theme-dark", isDarkMode);
@@ -236,7 +249,7 @@ function App() {
             onSelectionCountChange={setSelectionCount}
             onRedactingChange={setIsRedacting}
             onRedactedFile={(bytes) => setActiveFile(cloneUint8ToArrayBuffer(bytes))}
-            onLoadError={setLoadError}
+            onLoadError={handleLoadError}
           />
 
           {loadError ? (
