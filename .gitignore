@@ -12,6 +12,10 @@ dist
 dist-ssr
 *.local
 
+# Working notes for this fork. The documents here are for whoever is working
+# on the project, not part of what is published.
+docs/
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
