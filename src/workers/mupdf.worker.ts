@@ -76,8 +76,16 @@ export class MupdfWorker {
       page.applyRedactions();
     }
 
-    // Export redacted PDF
-    const buf = (this.pdfdocument as mupdf.PDFDocument).saveToBuffer().asUint8Array();
+    // Export the redacted PDF.
+    //
+    // "garbage=2" rewrites the file and discards the previous revision.
+    // Without it the removed image data and the original text stay inside
+    // the file: the page looks clean, but the data can still be recovered
+    // from the bytes. A redaction has to remove the content from the file
+    // itself, not only from the page.
+    const buf = (this.pdfdocument as mupdf.PDFDocument)
+      .saveToBuffer("garbage=2")
+      .asUint8Array();
     return new Uint8Array(buf);
   }
 }
