@@ -73,7 +73,18 @@ export class MupdfWorker {
     const touched = [...new Set(targets.map((t) => t.pageIndex))];
     for (const idx of touched) {
       const page = (this.pdfdocument as mupdf.PDFDocument).loadPage(idx);
-      page.applyRedactions();
+      // State the options instead of relying on the engine's defaults.
+      //
+      // The first argument is "black boxes": 0 means the content is removed
+      // rather than covered by a black rectangle, which is the whole point
+      // of a redaction. The rest say what to do with images, line art and
+      // text inside the removed area.
+      page.applyRedactions(
+        0,
+        mupdf.PDFPage.REDACT_IMAGE_PIXELS,
+        mupdf.PDFPage.REDACT_LINE_ART_REMOVE_IF_TOUCHED,
+        mupdf.PDFPage.REDACT_TEXT_REMOVE
+      );
     }
 
     // Export the redacted PDF.
