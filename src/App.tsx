@@ -40,6 +40,7 @@ function App() {
   const [isRedacting, setIsRedacting] = useState(false);
   const [isDarkMode, setIsDarkMode] = useState(false);
   const [command, setCommand] = useState<ViewerCommand | null>(null);
+  const [loadError, setLoadError] = useState<string | null>(null);
   const [toolbarPos, setToolbarPos] = useState({ x: 20, y: HEADER_HEIGHT + 16 });
 
   useEffect(() => {
@@ -235,7 +236,14 @@ function App() {
             onSelectionCountChange={setSelectionCount}
             onRedactingChange={setIsRedacting}
             onRedactedFile={(bytes) => setActiveFile(cloneUint8ToArrayBuffer(bytes))}
+            onLoadError={setLoadError}
           />
+
+          {loadError ? (
+            <p className="load-error" role="alert">
+              {loadError}
+            </p>
+          ) : null}
         </>
       )}
     </div>

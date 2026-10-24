@@ -34,6 +34,7 @@ type Props = {
   onSelectionCountChange?: (count: number) => void;
   onRedactingChange?: (isRedacting: boolean) => void;
   onRedactedFile?: (file: Uint8Array) => void;
+  onLoadError?: (message: string | null) => void;
 };
 
 export default function PDFJsViewer({
@@ -42,6 +43,7 @@ export default function PDFJsViewer({
   onSelectionCountChange,
   onRedactingChange,
   onRedactedFile,
+  onLoadError,
 }: Props) {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const viewerRef = useRef<HTMLDivElement | null>(null);
@@ -195,8 +197,13 @@ export default function PDFJsViewer({
         viewer.setDocument(pdfDoc);
         linkService.setDocument(pdfDoc);
         viewer.currentScaleValue = "page-width";
+        onLoadError?.(null);
       } catch (err) {
-        if (!cancelled) console.error(err);
+        if (cancelled) return;
+        // The failure used to be reported only to the browser console, which
+        // left the page blank with no explanation. Say what went wrong.
+        console.error(err);
+        onLoadError?.(describeLoadError(err));
       }
     })();
 
@@ -354,4 +361,31 @@ export default function PDFJsViewer({
       </div>
     </div>
   );
+}
+
+/**
+ * Turns a document loading failure into something a person can act on.
+ *
+ * The most common cause by far is that the application was never fully
+ * cached and the network is unavailable, so the engine could not start. That
+ * case needs its own words, because "try again" does not help without a
+ * connection.
+ */
+export function describeLoadError(error: unknown): string {
+  const name = error instanceof Error ? error.name : "";
+  const message = error instanceof Error ? error.message : String(error);
+
+  if (name === "MissingPDFException" || /password/i.test(message)) {
+    return "This PDF is locked or damaged, so it could not be opened.";
+  }
+
+  if (name === "InvalidPDFException") {
+    return "This file is not a valid PDF.";
+  }
+
+  if (/network|fetch|load failed|failed to fetch/i.test(message)) {
+    return "The PDF engine could not be loaded. This usually means the application is not fully cached and there is no network connection. Open the tool once while online, then it will work offline.";
+  }
+
+  return "This PDF could not be opened. It may be damaged or use encryption this browser cannot read.";
 }

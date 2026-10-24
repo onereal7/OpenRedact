@@ -365,6 +365,25 @@ body {
   pointer-events: none;
 }
 
+/* A document that could not be opened. Before, this failure was reported
+   only in the browser console and the page stayed blank. */
+.load-error {
+  position: absolute;
+  top: 5.8rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 11;
+  max-width: min(560px, calc(100vw - 2rem));
+  padding: 0.85rem 1rem;
+  border-radius: 10px;
+  font-size: 0.95rem;
+  line-height: 1.45;
+  color: #7a1f1a;
+  background: rgba(253, 235, 233, 0.97);
+  border: 1px solid #f0b4ae;
+  box-shadow: 0 6px 16px rgba(16, 24, 40, 0.12);
+}
+
 .pdf-toolbar {
   position: absolute;
   display: flex;
@@ -496,6 +515,13 @@ body.theme-dark .redaction-tip {
   color: #d8e2ff;
   background: rgba(20, 32, 61, 0.94);
   border-color: #365488;
+  box-shadow: 0 8px 18px rgba(2, 6, 23, 0.35);
+}
+
+body.theme-dark .load-error {
+  color: #ffd9d4;
+  background: rgba(58, 24, 22, 0.94);
+  border-color: #7d3a34;
   box-shadow: 0 8px 18px rgba(2, 6, 23, 0.35);
 }
 
